@@ -45,11 +45,10 @@ const authenticateToken = (req, res, next) => {
 };
 
 // 5. Database connection
-const isProduction = process.env.NODE_ENV === 'production';
-const connectionString = isProduction ?
-process.env.DATABASE_URL : `postgresql: 
-//postgres:${process.env.DATABASE_PASSWORD
-  }@localhost: 5432/quotes_db`;
+const connectionString = isProduction
+  ? process.env.DATABASE_URL
+  : `postgresql://postgres:${process.env.DATABASE_PASSWORD}@localhost:5432/quotes_db`;
+
 
 const pool = new Pool({
   connectionString: connectionString, 
@@ -158,6 +157,6 @@ app.post('/api/quotes', authenticateToken, async (req, res) => {
 });
 
 // Start server
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
