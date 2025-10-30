@@ -45,6 +45,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 // 5. Database connection
+const isProduction = process.env.NODE_ENV === 'production';
 const connectionString = isProduction
   ? process.env.DATABASE_URL
   : `postgresql://postgres:${process.env.DATABASE_PASSWORD}@localhost:5432/quotes_db`;
