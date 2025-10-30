@@ -45,12 +45,16 @@ const authenticateToken = (req, res, next) => {
 };
 
 // 5. Database connection
+const isProduction = process.env.NODE_ENV === 'production';
+const connectionString = isProduction ?
+process.env.DATABASE_URL : `postgresql: 
+//postgres:${process.env.DATABASE_PASSWORD
+  }@localhost: 5432/quotes_db`;
+
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'quotes_db',
-  password: process.env.DATABASE_PASSWORD,
-  port: 5432,
+  connectionString: connectionString, 
+  ssl: isProduction ?
+  { rejectUnauthorized: false } : false,
 });
 
 // --- AUTH ROUTES ---
